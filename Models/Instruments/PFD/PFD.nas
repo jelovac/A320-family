@@ -37,8 +37,6 @@ var wow2 = props.globals.getNode("/gear/gear[2]/wow");
 var pitch = props.globals.getNode("/orientation/pitch-deg", 1);
 var roll = props.globals.getNode("/orientation/roll-deg", 1);
 var elapsedtime = props.globals.getNode("/sim/time/elapsed-sec", 1);
-var acess = props.globals.getNode("/systems/electrical/bus/ac-ess", 1);
-var ac2 = props.globals.getNode("/systems/electrical/bus/ac-2", 1);
 var du1_lgt = props.globals.getNode("/controls/lighting/DU/du1", 1);
 var du6_lgt = props.globals.getNode("/controls/lighting/DU/du6", 1);
 var acconfig = props.globals.getNode("/systems/acconfig/autoconfig-running", 1);
@@ -73,22 +71,19 @@ var alt_diff = props.globals.getNode("/instrumentation/pfd/alt-diff", 1);
 var ground_diff = props.globals.getNode("/instrumentation/pfd/ground-diff", 1);
 var landing_diff = props.globals.getNode("/instrumentation/pfd/landing-diff", 1);
 var ap_alt = props.globals.getNode("/it-autoflight/internal/alt", 1);
-var alt_agl = props.globals.getNode("/position/altitude-agl-ft", 1);
 var vs_needle = props.globals.getNode("/instrumentation/pfd/vs-needle", 1);
 var vs_digit = props.globals.getNode("/instrumentation/pfd/vs-digit-trans", 1);
 var ap_vs_pfd = props.globals.getNode("/it-autoflight/internal/vert-speed-fpm-pfd", 1);
 var athr_arm = props.globals.getNode("/modes/pfd/fma/athr-armed", 1);
-var FMGC_max_spd = props.globals.getNode("/FMGC/internal/maxspeed", 1);
 var ind_spd_kt = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt", 1);
 var ind_spd_mach = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-mach", 1);
 var at_mach_mode = props.globals.getNode("/it-autoflight/input/kts-mach", 1);
-var at_input_spd_mach = props.globals.getNode("/it-autoflight/input/spd-mach", 1);
-var at_input_spd_kts = props.globals.getNode("/it-autoflight/input/spd-kts", 1);
+var at_input_spd_mach = props.globals.getNode("/it-autoflight/input/mach", 1);
+var at_input_spd_kts = props.globals.getNode("/it-autoflight/input/kts", 1);
 var fd_roll = props.globals.getNode("/it-autoflight/fd/roll-bar", 1);
 var fd_pitch = props.globals.getNode("/it-autoflight/fd/pitch-bar", 1);
 var decision = props.globals.getNode("/instrumentation/mk-viii/inputs/arinc429/decision-height", 1);
 var slip_skid = props.globals.getNode("/instrumentation/pfd/slip-skid", 1);
-var FMGCphase = props.globals.getNode("/FMGC/status/phase", 1);
 var loc = props.globals.getNode("/instrumentation/nav[0]/heading-needle-deflection-norm", 1);
 var gs = props.globals.getNode("/instrumentation/nav[0]/gs-needle-deflection-norm", 1);
 var show_hdg = props.globals.getNode("/it-autoflight/custom/show-hdg", 1);
@@ -128,19 +123,11 @@ var ils1_crs_set = props.globals.getNode("/FMGC/internal/ils1crs-set/", 1);
 var outer_marker = props.globals.getNode("/instrumentation/marker-beacon/outer", 1);
 var middle_marker = props.globals.getNode("/instrumentation/marker-beacon/middle", 1);
 var inner_marker = props.globals.getNode("/instrumentation/marker-beacon/inner", 1);
-var v1 = props.globals.getNode("/FMGC/internal/v1", 1);
-var v1_set = props.globals.getNode("/FMGC/internal/v1-set", 1);
-var vr = props.globals.getNode("/FMGC/internal/vr", 1);
-var vr_set = props.globals.getNode("/FMGC/internal/vr-set", 1);
-var v2 = props.globals.getNode("/FMGC/internal/v2", 1);
-var v2_set = props.globals.getNode("/FMGC/internal/v2-set", 1);
 var flap_config = props.globals.getNode("/controls/flight/flaps-input", 1);
 var hundredAbove = props.globals.getNode("/instrumentation/pfd/hundred-above", 1);
 var minimum = props.globals.getNode("/instrumentation/pfd/minimums", 1);
 
 # Create Nodes:
-var vs_needle = props.globals.initNode("/instrumentation/pfd/vs-needle", 0.0, "DOUBLE");
-var vs_needle_trans = props.globals.initNode("/instrumentation/pfd/vs-digit-trans", 0.0, "DOUBLE");
 var alt_diff = props.globals.initNode("/instrumentation/pfd/alt-diff", 0.0, "DOUBLE");
 var ground_diff = props.globals.initNode("/instrumentation/pfd/ground-diff", 0.0, "DOUBLE");
 var landing_diff = props.globals.initNode("/instrumentation/pfd/landing-diff", 0.0, "DOUBLE");
@@ -225,11 +212,11 @@ var canvas_PFD_base = {
 		"AI_agl_g","AI_agl","AI_error","AI_group","FD_roll","FD_pitch","ALT_box_flash","ALT_box","ALT_box_amber","ALT_scale","ALT_target","ALT_target_digit","ALT_one","ALT_two","ALT_three","ALT_four","ALT_five","ALT_digits","ALT_tens","ALT_digit_UP",
 		"ALT_digit_DN","ALT_error","ALT_group","ALT_group2","ALT_frame","VS_pointer","VS_box","VS_digit","VS_error","VS_group","QNH","QNH_setting","QNH_std","QNH_box","LOC_pointer","LOC_scale","GS_scale","GS_pointer","CRS_pointer","HDG_target","HDG_scale",
 		"HDG_one","HDG_two","HDG_three","HDG_four","HDG_five","HDG_six","HDG_seven","HDG_digit_L","HDG_digit_R","HDG_error","HDG_group","HDG_frame","TRK_pointer","machError","ilsError","ils_code","ils_freq","dme_dist","dme_dist_legend","ILS_HDG_R","ILS_HDG_L",
-		"ILS_right","ILS_left","outerMarker","middleMarker","innerMarker","v1_group","v1_text","vr_speed","F_target","S_target","FS_targets","flap_max","clean_speed","ground","ground_ref"];
+		"ILS_right","ILS_left","outerMarker","middleMarker","innerMarker","v1_group","v1_text","vr_speed","F_target","S_target","FS_targets","flap_max","clean_speed","ground","ground_ref","spdLimError"];
 	},
 	updateDu1: func() {
 		var elapsedtime_act = elapsedtime.getValue();
-		if (acess.getValue() >= 110) {
+		if (systems.ELEC.Bus.acEss.getValue() >= 110) {
 			if (du1_offtime.getValue() + 3 < elapsedtime_act) { 
 				if (wow0.getValue() == 1) {
 					if (acconfig.getValue() != 1 and du1_test.getValue() != 1) {
@@ -254,7 +241,7 @@ var canvas_PFD_base = {
 	},
 	updateDu6: func() {
 		var elapsedtime_act = elapsedtime.getValue();
-		if (ac2.getValue() >= 110) {
+		if (systems.ELEC.Bus.ac2.getValue() >= 110) {
 			if (du6_offtime.getValue() + 3 < elapsedtime_act) { 
 				if (wow0.getValue() == 1) {
 					if (acconfig.getValue() != 1 and du6_test.getValue() != 1) {
@@ -283,7 +270,7 @@ var canvas_PFD_base = {
 		if (acconfig_mismatch.getValue() == "0x000") {
 			PFD_1_mismatch.page.hide();
 			PFD_2_mismatch.page.hide();
-			if (acess.getValue() >= 110 and du1_lgt.getValue() > 0.01) {
+			if (systems.ELEC.Bus.acEss.getValue() >= 110 and du1_lgt.getValue() > 0.01) {
 				if (du1_test_time.getValue() + du1_test_amount.getValue() >= elapsedtime_act and cpt_du_xfr.getValue() != 1) {
 					PFD_1_test.update();
 					updateL = 0;
@@ -306,7 +293,7 @@ var canvas_PFD_base = {
 				PFD_1_test.page.hide();
 				PFD_1.page.hide();
 			}
-			if (ac2.getValue() >= 110 and du6_lgt.getValue() > 0.01) {
+			if (systems.ELEC.Bus.ac2.getValue() >= 110 and du6_lgt.getValue() > 0.01) {
 				if (du6_test_time.getValue() + du6_test_amount.getValue() >= elapsedtime_act and fo_du_xfr.getValue() != 1) {
 					PFD_2_test.update();
 					updateR = 0;
@@ -644,7 +631,7 @@ var canvas_PFD_base = {
 			me["QNH"].hide();
 			me["QNH_setting"].hide();
 			
-			if (altitude.getValue() < fmgc.FMGCInternal.transAlt and FMGCphase.getValue() == '4') {
+			if (altitude.getValue() < fmgc.FMGCInternal.transAlt and fmgc.FMGCInternal.phase == 4) {
 				if (qnh_going == 0) {
 					qnh_going = 1;
 				}
@@ -669,7 +656,7 @@ var canvas_PFD_base = {
 			me["QNH_std"].hide();
 			me["QNH_box"].hide();
 		
-			if (altitude.getValue() >= fmgc.FMGCInternal.transAlt and FMGCphase.getValue() == '2') {
+			if (altitude.getValue() >= fmgc.FMGCInternal.transAlt and fmgc.FMGCInternal.phase == 2) {
 				if (qnh_going == 0) {
 					qnh_going = 1;
 				}
@@ -694,7 +681,7 @@ var canvas_PFD_base = {
 
 		} else if (alt_inhg_mode.getValue() == 1) {
 		
-			if (altitude.getValue() >= fmgc.FMGCInternal.transAlt and FMGCphase.getValue() == '2') {
+			if (altitude.getValue() >= fmgc.FMGCInternal.transAlt and fmgc.FMGCInternal.phase == 2) {
 				if (qnh_going == 0) {
 					qnh_going = 1;
 				}
@@ -761,7 +748,7 @@ var canvas_PFD_base = {
 		
 		me["AI_agl"].setText(sprintf("%s", math.round(math.clamp(gear_agl_cur, 0, 2500))));
 		
-		if (FMGCphase.getValue() < 3 or fmgc.flightPlanController.arrivalDist >= 250) {
+		if (fmgc.FMGCInternal.phase < 3 or fmgc.flightPlanController.arrivalDist >= 250) {
 			me["FMA_dh_box"].hide();
 			me["FMA_dh"].hide();
 			me["FMA_dhn"].hide();
@@ -807,7 +794,7 @@ var canvas_PFD_base = {
 					} else {
 						me["AI_agl"].setColor(0.0509,0.7529,0.2941);
 					}
-				} else if (getprop("/FMGC/internal/radio-no")) {
+				} else if (fmgc.FMGCInternal.radioNo) {
 					me["FMA_dh"].setText("BARO");
 					me["FMA_dh"].show();
 					me["FMA_dhn"].setText("100");
@@ -848,7 +835,7 @@ var canvas_PFD_base = {
 					me["FMA_dhn"].setText(sprintf("%.0f", getprop("/FMGC/internal/baro")));
 					me["FMA_dhn"].show();
 					me["FMA_nodh"].hide();
-				} else if (getprop("/FMGC/internal/radio-no")) {
+				} else if (fmgc.FMGCInternal.radioNo) {
 					me["FMA_dh"].setText("BARO");
 					me["FMA_dh"].show();
 					me["FMA_dhn"].setText("100");
@@ -864,7 +851,7 @@ var canvas_PFD_base = {
 		
 		me["AI_agl_g"].setRotation(-roll_cur * D2R);
 		
-		FMGCphase_act = FMGCphase.getValue();
+		FMGCphase_act = fmgc.FMGCInternal.phase;
 		if ((wow1.getValue() == 1 or wow2.getValue() == 1) and FMGCphase_act != 0 and FMGCphase_act != 1) {
 			me["AI_stick"].show();
 			me["AI_stick_pos"].show();
@@ -895,6 +882,19 @@ var canvas_PFD_base = {
 			me["VS_digit"].setText(sprintf("%02d", "0" ~ vs_pfd_cur));
 		} else {
 			me["VS_digit"].setText(sprintf("%02d", vs_pfd_cur));
+		}
+		
+		var vs_itaf = fmgc.Internal.vs.getValue();
+		var gearAgl = gear_agl.getValue();
+		
+		if (abs(vs_itaf) >= 6000 or (vs_itaf <= -2000 and gearAgl <= 2500) or (vs_itaf <= -1200 and gearAgl <= 1000)) {
+			me["VS_digit"].setColor(0.7333,0.3803,0);
+			me["VS_pointer"].setColor(0.7333,0.3803,0);
+			me["VS_pointer"].setColorFill(0.7333,0.3803,0);
+		} else {
+			me["VS_digit"].setColor(0.0509,0.7529,0.2941);
+			me["VS_pointer"].setColor(0.0509,0.7529,0.2941);
+			me["VS_pointer"].setColorFill(0.0509,0.7529,0.2941);
 		}
 		
 		# ILS		
@@ -1032,7 +1032,6 @@ var canvas_PFD_1 = {
 	SPDftrgtdiff: 0,
 	SPDflaptrgtdiff: 0,
 	SPDcleantrgtdiff: 0,
-	FMGC_max: 0,
 	new: func(canvas_group, file) {
 		var m = {parents: [canvas_PFD_1, canvas_PFD_base]};
 		m.init(canvas_group, file);
@@ -1065,6 +1064,14 @@ var canvas_PFD_1 = {
 			me["HDG_group"].hide();
 			me["VS_error"].show();
 			me["VS_group"].hide();
+		}
+		
+		# Apparently SPD LIM only on captains PFD. I find this odd. But manual says it.
+		# Spd Lim Error
+		if (!fbw.FBW.Computers.fac1.getValue() and !fbw.FBW.Computers.fac2.getValue()) {
+			me["spdLimError"].show();
+		} else {
+			me["spdLimError"].hide();
 		}
 		
 		# FD
@@ -1193,7 +1200,7 @@ var canvas_PFD_1 = {
 				me.ASI = ind_spd - 30;
 			}
 			
-			me.FMGC_max = FMGC_max_spd.getValue();
+			me.FMGC_max = fmgc.FMGCInternal.maxspeed;
 			if (me.FMGC_max <= 30) {
 				me.ASImax = 0 - me.ASI;
 			} else if (me.FMGC_max >= 420) {
@@ -1203,10 +1210,16 @@ var canvas_PFD_1 = {
 			}
 			
 			me["ASI_scale"].setTranslation(0, me.ASI * 6.6);
-			me["ASI_max"].setTranslation(0, me.ASImax * -6.6);
 			
-			if (!getprop("/FMGC/status/to-state") and FMGCphase.getValue() >= 1 and !wow1.getValue() and !wow2.getValue()) {
-				me.FMGC_vls = getprop("/FMGC/internal/computed-speeds/vls_min");
+			if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+				me["ASI_max"].setTranslation(0, me.ASImax * -6.6);
+				me["ASI_max"].show();
+			} else {
+				me["ASI_max"].hide();
+			}
+			
+			if (!fmgc.FMGCInternal.takeoffState and fmgc.FMGCInternal.phase >= 1 and !wow1.getValue() and !wow2.getValue()) {
+				me.FMGC_vls = fmgc.FMGCInternal.vls_min;
 				if (me.FMGC_vls <= 30) {
 					me.VLSmin = 0 - me.ASI;
 				} else if (me.FMGC_vls >= 420) {
@@ -1214,7 +1227,7 @@ var canvas_PFD_1 = {
 				} else {
 					me.VLSmin = me.FMGC_vls - 30 - me.ASI;
 				}
-				me.FMGC_prot = getprop("/FMGC/internal/computed-speeds/alpha_prot");
+				me.FMGC_prot = fmgc.FMGCInternal.alpha_prot;
 				if (me.FMGC_prot <= 30) {
 					me.ALPHAprot = 0 - me.ASI;
 				} else if (me.FMGC_prot >= 420) {
@@ -1222,7 +1235,7 @@ var canvas_PFD_1 = {
 				} else {
 					me.ALPHAprot = me.FMGC_prot - 30 - me.ASI;
 				}
-				me.FMGC_max = getprop("/FMGC/internal/computed-speeds/alpha_max");
+				me.FMGC_max = fmgc.FMGCInternal.alpha_max;
 				if (me.FMGC_max <= 30) {
 					me.ALPHAmax = 0 - me.ASI;
 				} else if (me.FMGC_max >= 420) {
@@ -1230,7 +1243,7 @@ var canvas_PFD_1 = {
 				} else {
 					me.ALPHAmax = me.FMGC_max - 30 - me.ASI;
 				}
-				me.FMGC_vsw = getprop("/FMGC/internal/computed-speeds/vsw");
+				me.FMGC_vsw = fmgc.FMGCInternal.vsw;
 				if (me.FMGC_vsw <= 30) {
 					me.ALPHAvsw = 0 - me.ASI;
 				} else if (me.FMGC_vsw >= 420) {
@@ -1238,19 +1251,27 @@ var canvas_PFD_1 = {
 				} else {
 					me.ALPHAvsw = me.FMGC_vsw - 30 - me.ASI;
 				}
-				me["VLS_min"].setTranslation(0, me.VLSmin * -6.6);
-				me["VLS_min"].show();
-				me["ALPHA_PROT"].setTranslation(0, me.ALPHAprot * -6.6);
-				me["ALPHA_MAX"].setTranslation(0, me.ALPHAmax * -6.6);
-				me["ALPHA_SW"].setTranslation(0, me.ALPHAvsw * -6.6);
-				if (getprop("/it-fbw/law") == 0) {
-					me["ALPHA_PROT"].show();
-					me["ALPHA_MAX"].show();
-					me["ALPHA_SW"].hide();
+				
+				if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+					me["VLS_min"].setTranslation(0, me.VLSmin * -6.6);
+					me["VLS_min"].show();
+					if (getprop("/it-fbw/law") == 0) {
+						me["ALPHA_PROT"].setTranslation(0, me.ALPHAprot * -6.6);
+						me["ALPHA_MAX"].setTranslation(0, me.ALPHAmax * -6.6);
+						me["ALPHA_PROT"].show();
+						me["ALPHA_MAX"].show();
+						me["ALPHA_SW"].hide();
+					} else {
+						me["ALPHA_PROT"].hide();
+						me["ALPHA_MAX"].hide();
+						me["ALPHA_SW"].setTranslation(0, me.ALPHAvsw * -6.6);
+						me["ALPHA_SW"].show();
+					}
 				} else {
+					me["VLS_min"].hide();
 					me["ALPHA_PROT"].hide();
 					me["ALPHA_MAX"].hide();
-					me["ALPHA_SW"].show();
+					me["ALPHA_SW"].hide();
 				}
 			}
 			
@@ -1260,15 +1281,15 @@ var canvas_PFD_1 = {
 			
 			if (managed_spd.getValue() == 1) {
 				if (getprop("/FMGC/internal/decel") == 1) {
-					if (getprop("/FMGC/internal/vapp-speed-set")) {
-						vapp = getprop("/FMGC/internal/computed-speeds/vapp_appr");
+					if (fmgc.FMGCInternal.vappSpeedSet) {
+						vapp = fmgc.FMGCInternal.vapp_appr;
 					} else {
-						vapp = getprop("/FMGC/internal/computed-speeds/vapp");
+						vapp = fmgc.FMGCInternal.vapp;
 					}
 					tgt_ias = vapp;
 					tgt_kts = vapp;
-				} else if (FMGCphase.getValue() == 6) {
-					clean = getprop("/FMGC/internal/computed-speeds/clean");
+				} else if (fmgc.FMGCInternal.phase == 6) {
+					clean = fmgc.FMGCInternal.clean;
 					tgt_ias = clean;
 					tgt_kts = clean;
 				}
@@ -1331,8 +1352,8 @@ var canvas_PFD_1 = {
 				me["ASI_target"].hide();
 			}
 			
-			if (v1_set.getValue() == '1') {
-				tgt_v1 = v1.getValue();
+			if (fmgc.FMGCInternal.v1set) {
+				tgt_v1 = fmgc.FMGCInternal.v1;
 				if (tgt_v1 <= 30) {
 					me.V1trgt = 0 - me.ASI;
 				} else if (tgt_v1 >= 420) {
@@ -1343,14 +1364,14 @@ var canvas_PFD_1 = {
 			
 				me.SPDv1trgtdiff = tgt_v1 - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDv1trgtdiff >= -42 and me.SPDv1trgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDv1trgtdiff >= -42 and me.SPDv1trgtdiff <= 42) {
 					me["v1_group"].show();
 					me["v1_text"].hide();
 					me["v1_group"].setTranslation(0, me.V1trgt * -6.6);
-				} else if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2) {
+				} else if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2) {
 					me["v1_group"].hide();
 					me["v1_text"].show();
-					me["v1_text"].setText(sprintf("%3.0f", v1.getValue()));
+					me["v1_text"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v1));
 				} else {
 					me["v1_group"].hide();
 					me["v1_text"].hide();
@@ -1360,8 +1381,8 @@ var canvas_PFD_1 = {
 				me["v1_text"].hide();
 			}
 			
-			if (vr_set.getValue() == '1') {
-				tgt_vr = vr.getValue();
+			if (fmgc.FMGCInternal.vrset) {
+				tgt_vr = fmgc.FMGCInternal.vr;
 				if (tgt_vr <= 30) {
 					me.VRtrgt = 0 - me.ASI;
 				} else if (tgt_vr >= 420) {
@@ -1372,7 +1393,7 @@ var canvas_PFD_1 = {
 			
 				me.SPDvrtrgtdiff = tgt_vr - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDvrtrgtdiff >= -42 and me.SPDvrtrgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDvrtrgtdiff >= -42 and me.SPDvrtrgtdiff <= 42) {
 					me["vr_speed"].show();
 					me["vr_speed"].setTranslation(0, me.VRtrgt * -6.6);
 				} else {
@@ -1382,8 +1403,8 @@ var canvas_PFD_1 = {
 				me["vr_speed"].hide();
 			}
 			
-			if (v2_set.getValue() == '1') {
-				tgt_v2 = v2.getValue();
+			if (fmgc.FMGCInternal.v2set) {
+				tgt_v2 = fmgc.FMGCInternal.v2;
 				if (tgt_v2 <= 30) {
 					me.V2trgt = 0 - me.ASI;
 				} else if (tgt_v2 >= 420) {
@@ -1394,155 +1415,157 @@ var canvas_PFD_1 = {
 			
 				me.SPDv2trgtdiff = tgt_v2 - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDv2trgtdiff >= -42 and me.SPDv2trgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDv2trgtdiff >= -42 and me.SPDv2trgtdiff <= 42) {
 					me["ASI_target"].show();
 					me["ASI_target"].setTranslation(0, me.V2trgt * -6.6);
-					me["ASI_digit_UP"].setText(sprintf("%3.0f", v2.getValue()));
-				} else if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2) {
+					me["ASI_digit_UP"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v2));
+				} else if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2) {
 					me["ASI_target"].hide();
-					me["ASI_digit_UP"].setText(sprintf("%3.0f", v2.getValue()));
+					me["ASI_digit_UP"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v2));
 				}
 			}
 			
-			if (flap_config.getValue() == '1') {
-				me["F_target"].hide();
-				me["clean_speed"].hide();
+			if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+				if (flap_config.getValue() == '1') {
+					me["F_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_S = fmgc.FMGCInternal.slat;
 				
-				tgt_S = getprop("/FMGC/internal/computed-speeds/slat");
-			
-				if (tgt_S <= 30) {
-					me.Strgt = 0 - me.ASI;
-				} else if (tgt_S >= 420) {
-					me.Strgt = 390 - me.ASI;
-				} else {
-					me.Strgt = tgt_S - 30 - me.ASI;
-				}
-			
-				me.SPDstrgtdiff = tgt_S - ind_spd;
-			
-				if (me.SPDstrgtdiff >= -42 and me.SPDstrgtdiff <= 42) {
-					me["S_target"].show();
-					me["S_target"].setTranslation(0, me.Strgt * -6.6);
+					if (tgt_S <= 30) {
+						me.Strgt = 0 - me.ASI;
+					} else if (tgt_S >= 420) {
+						me.Strgt = 390 - me.ASI;
+					} else {
+						me.Strgt = tgt_S - 30 - me.ASI;
+					}
+				
+					me.SPDstrgtdiff = tgt_S - ind_spd;
+				
+					if (me.SPDstrgtdiff >= -42 and me.SPDstrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["S_target"].show();
+						me["S_target"].setTranslation(0, me.Strgt * -6.6);
+					} else {
+						me["S_target"].hide();
+					}
+					
+					tgt_flap = 200;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '2') {
+					me["S_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_F = fmgc.FMGCInternal.flap2;
+					
+					if (tgt_F <= 30) {
+						me.Ftrgt = 0 - me.ASI;
+					} else if (tgt_F >= 420) {
+						me.Ftrgt = 390 - me.ASI;
+					} else {
+						me.Ftrgt = tgt_F - 30 - me.ASI;
+					}
+				
+					me.SPDftrgtdiff = tgt_F - ind_spd;
+				
+					if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["F_target"].show();
+						me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
+					} else {
+						me["F_target"].hide();
+					}
+					
+					tgt_flap = 185;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '3') {
+					me["S_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_F = fmgc.FMGCInternal.flap3;
+						
+					if (tgt_F <= 30) {
+						me.Ftrgt = 0 - me.ASI;
+					} else if (tgt_F >= 420) {
+						me.Ftrgt = 390 - me.ASI;
+					} else {
+						me.Ftrgt = tgt_F - 30 - me.ASI;
+					}
+				
+					me.SPDftrgtdiff = tgt_F - ind_spd;
+				
+					if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["F_target"].show();
+						me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
+					} else {
+						me["F_target"].hide();
+					}
+					
+					tgt_flap = 177;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '4') {
+					me["S_target"].hide();
+					me["F_target"].hide();
+					me["clean_speed"].hide();	
+					me["flap_max"].hide();
 				} else {
 					me["S_target"].hide();
-				}
-				
-				tgt_flap = 200;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			} else if (flap_config.getValue() == '2') {
-				me["S_target"].hide();
-				me["clean_speed"].hide();
-				
-				tgt_F = getprop("/FMGC/internal/computed-speeds/flap2");
-				
-				if (tgt_F <= 30) {
-					me.Ftrgt = 0 - me.ASI;
-				} else if (tgt_F >= 420) {
-					me.Ftrgt = 390 - me.ASI;
-				} else {
-					me.Ftrgt = tgt_F - 30 - me.ASI;
-				}
-			
-				me.SPDftrgtdiff = tgt_F - ind_spd;
-			
-				if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42) {
-					me["F_target"].show();
-					me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
-				} else {
 					me["F_target"].hide();
-				}
-				
-				tgt_flap = 185;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			} else if (flap_config.getValue() == '3') {
-				me["S_target"].hide();
-				me["clean_speed"].hide();
-				
-				tgt_F = getprop("/FMGC/internal/computed-speeds/flap3");
 					
-				if (tgt_F <= 30) {
-					me.Ftrgt = 0 - me.ASI;
-				} else if (tgt_F >= 420) {
-					me.Ftrgt = 390 - me.ASI;
-				} else {
-					me.Ftrgt = tgt_F - 30 - me.ASI;
-				}
-			
-				me.SPDftrgtdiff = tgt_F - ind_spd;
-			
-				if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42) {
-					me["F_target"].show();
-					me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
-				} else {
-					me["F_target"].hide();
-				}
+					tgt_clean = fmgc.FMGCInternal.clean;
+					
+					me.cleantrgt = tgt_clean - 30 - me.ASI;
+					me.SPDcleantrgtdiff = tgt_clean - ind_spd;
 				
-				tgt_flap = 177;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
+					if (me.SPDcleantrgtdiff >= -42 and me.SPDcleantrgtdiff <= 42) {
+						me["clean_speed"].show();
+						me["clean_speed"].setTranslation(0, me.cleantrgt * -6.6);
+					} else {
+						me["clean_speed"].hide();
+					}	
+					
+					tgt_flap = 230;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
 				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
 				}
-			} else if (flap_config.getValue() == '4') {
-				me["S_target"].hide();
-				me["F_target"].hide();
-				me["clean_speed"].hide();	
-				me["flap_max"].hide();
 			} else {
 				me["S_target"].hide();
 				me["F_target"].hide();
-				
-				tgt_clean = getprop("/FMGC/internal/computed-speeds/clean");
-				
-				me.cleantrgt = tgt_clean - 30 - me.ASI;
-				me.SPDcleantrgtdiff = tgt_clean - ind_spd;
-			
-				if (me.SPDcleantrgtdiff >= -42 and me.SPDcleantrgtdiff <= 42) {
-					me["clean_speed"].show();
-					me["clean_speed"].setTranslation(0, me.cleantrgt * -6.6);
-				} else {
-					me["clean_speed"].hide();
-				}	
-				
-				tgt_flap = 230;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			}
-			
-			if (alt_agl.getValue() < 400) {
-				me["S_target"].hide();
-				me["F_target"].hide();
+				me["clean_speed"].hide();
+				me["flap_max"].hide();
 			}
 			
 			me.ASItrend = dmc.DMController.DMCs[0].outputs[6].getValue() - me.ASI;
@@ -1681,7 +1704,7 @@ var canvas_PFD_1 = {
 			
 			landing_diff_cur = landing_diff.getValue();
 			if (landing_diff_cur >= -565 and landing_diff_cur <= 565) {
-				if ((FMGCphase.getValue() == 5 or FMGCphase.getValue() == 6) and !wow1.getValue() and !wow2.getValue()) { #add std too
+				if ((fmgc.FMGCInternal.phase == 5 or fmgc.FMGCInternal.phase == 6) and !wow1.getValue() and !wow2.getValue()) { #add std too
 					me["ground"].setTranslation(0, (landing_diff_cur / 100) * -48.66856);
 					me["ground"].show();
 				} else {
@@ -1691,13 +1714,13 @@ var canvas_PFD_1 = {
 				me["ground"].hide();
 			}
 			
-			if (!getprop("/ECAM/alt-alert-flash") and !getprop("/ECAM/alt-alert-steady")) {
+			if (!ecam.altAlertFlash and !ecam.altAlertSteady) {
 				alt_going1 = 0;
 				amber_going1 = 0;
 				me["ALT_box_flash"].hide();
 				me["ALT_box_amber"].hide();
 			} else {
-				if (getprop("/ECAM/alt-alert-flash")) {
+				if (ecam.altAlertFlash) {
 					if (alt_going1 == 1) {
 						me["ALT_box_flash"].hide(); 
 						altTimer1.stop();
@@ -1715,7 +1738,7 @@ var canvas_PFD_1 = {
 					} else {
 						me["ALT_box_amber"].show(); 
 					}
-				} elsif (getprop("/ECAM/alt-alert-steady")) {
+				} elsif (ecam.altAlertSteady) {
 					if (amber_going1 == 1) {
 						me["ALT_box"].show();
 						me["ALT_box_amber"].hide();
@@ -1804,6 +1827,7 @@ var canvas_PFD_2 = {
 			me["VS_error"].show();
 			me["VS_group"].hide();
 		}
+		me["spdLimError"].hide();
 		
 		# FD
 		if (fd2_act == 1 and ((!wow1_act and !wow2_act and roll_mode_cur != " ") or roll_mode_cur != " ") and ap_trk_sw.getValue() == 0 and pitch_cur < 25 and pitch_cur > -13 and roll_cur < 45 and roll_cur > -45) {
@@ -1931,7 +1955,7 @@ var canvas_PFD_2 = {
 				me.ASI = ind_spd - 30;
 			}
 			
-			me.FMGC_max = FMGC_max_spd.getValue();
+			me.FMGC_max = fmgc.FMGCInternal.maxspeed;
 			if (me.FMGC_max <= 30) {
 				me.ASImax = 0 - me.ASI;
 			} else if (me.FMGC_max >= 420) {
@@ -1941,10 +1965,16 @@ var canvas_PFD_2 = {
 			}
 			
 			me["ASI_scale"].setTranslation(0, me.ASI * 6.6);
-			me["ASI_max"].setTranslation(0, me.ASImax * -6.6);
 			
-			if (!getprop("/FMGC/status/to-state") and FMGCphase.getValue() >= 1 and !wow1.getValue() and !wow2.getValue()) {
-				me.FMGC_vls = getprop("/FMGC/internal/computed-speeds/vls_min");
+			if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+				me["ASI_max"].setTranslation(0, me.ASImax * -6.6);
+				me["ASI_max"].show();
+			} else {
+				me["ASI_max"].hide();
+			}
+			
+			if (!fmgc.FMGCInternal.takeoffState and fmgc.FMGCInternal.phase >= 1 and !wow1.getValue() and !wow2.getValue()) {
+				me.FMGC_vls = fmgc.FMGCInternal.vls_min;
 				if (me.FMGC_vls <= 30) {
 					me.VLSmin = 0 - me.ASI;
 				} else if (me.FMGC_vls >= 420) {
@@ -1952,7 +1982,7 @@ var canvas_PFD_2 = {
 				} else {
 					me.VLSmin = me.FMGC_vls - 30 - me.ASI;
 				}
-				me.FMGC_prot = getprop("/FMGC/internal/computed-speeds/alpha_prot");
+				me.FMGC_prot = fmgc.FMGCInternal.alpha_prot;
 				if (me.FMGC_prot <= 30) {
 					me.ALPHAprot = 0 - me.ASI;
 				} else if (me.FMGC_prot >= 420) {
@@ -1960,7 +1990,7 @@ var canvas_PFD_2 = {
 				} else {
 					me.ALPHAprot = me.FMGC_prot - 30 - me.ASI;
 				}
-				me.FMGC_max = getprop("/FMGC/internal/computed-speeds/alpha_max");
+				me.FMGC_max = fmgc.FMGCInternal.alpha_max;
 				if (me.FMGC_max <= 30) {
 					me.ALPHAmax = 0 - me.ASI;
 				} else if (me.FMGC_max >= 420) {
@@ -1968,7 +1998,7 @@ var canvas_PFD_2 = {
 				} else {
 					me.ALPHAmax = me.FMGC_max - 30 - me.ASI;
 				}
-				me.FMGC_vsw = getprop("/FMGC/internal/computed-speeds/vsw");
+				me.FMGC_vsw = fmgc.FMGCInternal.vsw;
 				if (me.FMGC_vsw <= 30) {
 					me.ALPHAvsw = 0 - me.ASI;
 				} else if (me.FMGC_vsw >= 420) {
@@ -1976,19 +2006,27 @@ var canvas_PFD_2 = {
 				} else {
 					me.ALPHAvsw = me.FMGC_vsw - 30 - me.ASI;
 				}
-				me["VLS_min"].setTranslation(0, me.VLSmin * -6.6);
-				me["VLS_min"].show();
-				me["ALPHA_PROT"].setTranslation(0, me.ALPHAprot * -6.6);
-				me["ALPHA_MAX"].setTranslation(0, me.ALPHAmax * -6.6);
-				me["ALPHA_SW"].setTranslation(0, me.ALPHAvsw * -6.6);
-				if (getprop("/it-fbw/law") == 0) {
-					me["ALPHA_PROT"].show();
-					me["ALPHA_MAX"].show();
-					me["ALPHA_SW"].hide();
+				
+				if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+					me["VLS_min"].setTranslation(0, me.VLSmin * -6.6);
+					me["VLS_min"].show();
+					if (getprop("/it-fbw/law") == 0) {
+						me["ALPHA_PROT"].setTranslation(0, me.ALPHAprot * -6.6);
+						me["ALPHA_MAX"].setTranslation(0, me.ALPHAmax * -6.6);
+						me["ALPHA_PROT"].show();
+						me["ALPHA_MAX"].show();
+						me["ALPHA_SW"].hide();
+					} else {
+						me["ALPHA_PROT"].hide();
+						me["ALPHA_MAX"].hide();
+						me["ALPHA_SW"].setTranslation(0, me.ALPHAvsw * -6.6);
+						me["ALPHA_SW"].show();
+					}
 				} else {
+					me["VLS_min"].hide();
 					me["ALPHA_PROT"].hide();
 					me["ALPHA_MAX"].hide();
-					me["ALPHA_SW"].show();
+					me["ALPHA_SW"].hide();
 				}
 			}
 			
@@ -1998,15 +2036,15 @@ var canvas_PFD_2 = {
 				
 			if (managed_spd.getValue() == 1) {
 				if (getprop("/FMGC/internal/decel") == 1) {
-					if (getprop("/FMGC/internal/vapp-speed-set")) {
-						vapp = getprop("/FMGC/internal/computed-speeds/vapp_appr");
+					if (fmgc.FMGCInternal.vappSpeedSet) {
+						vapp = fmgc.FMGCInternal.vapp_appr;
 					} else {
-						vapp = getprop("/FMGC/internal/computed-speeds/vapp");
+						vapp = fmgc.FMGCInternal.vapp;
 					}
 					tgt_ias = vapp;
 					tgt_kts = vapp;
-				} else if (FMGCphase.getValue() == 6) {
-					clean = getprop("/FMGC/internal/computed-speeds/clean");
+				} else if (fmgc.FMGCInternal.phase == 6) {
+					clean = fmgc.FMGCInternal.clean;
 					tgt_ias = clean;
 					tgt_kts = clean;
 				}
@@ -2024,7 +2062,6 @@ var canvas_PFD_2 = {
 				me["ASI_decimal_DN"].setColor(0.0901,0.6039,0.7176);
 			}
 			
-			tgt_ias = at_tgt_ias.getValue();
 			if (tgt_ias <= 30) {
 				me.ASItrgt = 0 - me.ASI;
 			} else if (tgt_ias >= 420) {
@@ -2070,8 +2107,8 @@ var canvas_PFD_2 = {
 				me["ASI_target"].hide();
 			}
 			
-			if (v1_set.getValue() == '1') {
-				tgt_v1 = v1.getValue();
+			if (fmgc.FMGCInternal.v1set) {
+				tgt_v1 = fmgc.FMGCInternal.v1;
 				if (tgt_v1 <= 30) {
 					me.V1trgt = 0 - me.ASI;
 				} else if (tgt_v1 >= 420) {
@@ -2082,14 +2119,14 @@ var canvas_PFD_2 = {
 			
 				me.SPDv1trgtdiff = tgt_v1 - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDv1trgtdiff >= -42 and me.SPDv1trgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDv1trgtdiff >= -42 and me.SPDv1trgtdiff <= 42) {
 					me["v1_group"].show();
 					me["v1_text"].hide();
 					me["v1_group"].setTranslation(0, me.V1trgt * -6.6);
-				} else if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2) {
+				} else if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2) {
 					me["v1_group"].hide();
 					me["v1_text"].show();
-					me["v1_text"].setText(sprintf("%3.0f", v1.getValue()));
+					me["v1_text"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v1));
 				} else {
 					me["v1_group"].hide();
 					me["v1_text"].hide();
@@ -2099,8 +2136,8 @@ var canvas_PFD_2 = {
 				me["v1_text"].hide();
 			}
 			
-			if (vr_set.getValue() == '1') {
-				tgt_vr = vr.getValue();
+			if (fmgc.FMGCInternal.vrset) {
+				tgt_vr = fmgc.FMGCInternal.vr;
 				if (tgt_vr <= 30) {
 					me.VRtrgt = 0 - me.ASI;
 				} else if (tgt_vr >= 420) {
@@ -2111,7 +2148,7 @@ var canvas_PFD_2 = {
 			
 				me.SPDvrtrgtdiff = tgt_vr - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDvrtrgtdiff >= -42 and me.SPDvrtrgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDvrtrgtdiff >= -42 and me.SPDvrtrgtdiff <= 42) {
 					me["vr_speed"].show();
 					me["vr_speed"].setTranslation(0, me.VRtrgt * -6.6);
 				} else {
@@ -2121,8 +2158,8 @@ var canvas_PFD_2 = {
 				me["vr_speed"].hide();
 			}
 			
-			if (v2_set.getValue() == '1') {
-				tgt_v2 = v2.getValue();
+			if (fmgc.FMGCInternal.v2set) {
+				tgt_v2 = fmgc.FMGCInternal.v2;
 				if (tgt_v2 <= 30) {
 					me.V2trgt = 0 - me.ASI;
 				} else if (tgt_v2 >= 420) {
@@ -2133,155 +2170,157 @@ var canvas_PFD_2 = {
 			
 				me.SPDv2trgtdiff = tgt_v2 - ind_spd;
 			
-				if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2 and me.SPDv2trgtdiff >= -42 and me.SPDv2trgtdiff <= 42) {
+				if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2 and me.SPDv2trgtdiff >= -42 and me.SPDv2trgtdiff <= 42) {
 					me["ASI_target"].show();
 					me["ASI_target"].setTranslation(0, me.V2trgt * -6.6);
-					me["ASI_digit_UP"].setText(sprintf("%3.0f", v2.getValue()));
-				} else if (pts.Position.gearAglFt.getValue() < 55 and FMGCphase.getValue() <= 2) {
+					me["ASI_digit_UP"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v2));
+				} else if (pts.Position.gearAglFt.getValue() < 55 and fmgc.FMGCInternal.phase <= 2) {
 					me["ASI_target"].hide();
-					me["ASI_digit_UP"].setText(sprintf("%3.0f", v2.getValue()));
+					me["ASI_digit_UP"].setText(sprintf("%3.0f", fmgc.FMGCInternal.v2));
 				}
 			}
 			
-			if (flap_config.getValue() == '1') {
-				me["F_target"].hide();
-				me["clean_speed"].hide();
+			if (fbw.FBW.Computers.fac1.getValue() or fbw.FBW.Computers.fac2.getValue()) {
+				if (flap_config.getValue() == '1') {
+					me["F_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_S = fmgc.FMGCInternal.slat;
 				
-				tgt_S = tgt_S = getprop("/FMGC/internal/computed-speeds/slat");
-			
-				if (tgt_S <= 30) {
-					me.Strgt = 0 - me.ASI;
-				} else if (tgt_S >= 420) {
-					me.Strgt = 390 - me.ASI;
-				} else {
-					me.Strgt = tgt_S - 30 - me.ASI;
-				}
-			
-				me.SPDstrgtdiff = tgt_S - ind_spd;
-			
-				if (me.SPDstrgtdiff >= -42 and me.SPDstrgtdiff <= 42) {
-					me["S_target"].show();
-					me["S_target"].setTranslation(0, me.Strgt * -6.6);
+					if (tgt_S <= 30) {
+						me.Strgt = 0 - me.ASI;
+					} else if (tgt_S >= 420) {
+						me.Strgt = 390 - me.ASI;
+					} else {
+						me.Strgt = tgt_S - 30 - me.ASI;
+					}
+				
+					me.SPDstrgtdiff = tgt_S - ind_spd;
+				
+					if (me.SPDstrgtdiff >= -42 and me.SPDstrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["S_target"].show();
+						me["S_target"].setTranslation(0, me.Strgt * -6.6);
+					} else {
+						me["S_target"].hide();
+					}
+					
+					tgt_flap = 200;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '2') {
+					me["S_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_F = fmgc.FMGCInternal.flap2;
+					
+					if (tgt_F <= 30) {
+						me.Ftrgt = 0 - me.ASI;
+					} else if (tgt_F >= 420) {
+						me.Ftrgt = 390 - me.ASI;
+					} else {
+						me.Ftrgt = tgt_F - 30 - me.ASI;
+					}
+				
+					me.SPDftrgtdiff = tgt_F - ind_spd;
+				
+					if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["F_target"].show();
+						me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
+					} else {
+						me["F_target"].hide();
+					}
+					
+					tgt_flap = 185;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '3') {
+					me["S_target"].hide();
+					me["clean_speed"].hide();
+					
+					tgt_F = fmgc.FMGCInternal.flap3;
+						
+					if (tgt_F <= 30) {
+						me.Ftrgt = 0 - me.ASI;
+					} else if (tgt_F >= 420) {
+						me.Ftrgt = 390 - me.ASI;
+					} else {
+						me.Ftrgt = tgt_F - 30 - me.ASI;
+					}
+				
+					me.SPDftrgtdiff = tgt_F - ind_spd;
+				
+					if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42 and gear_agl.getValue() >= 400) {
+						me["F_target"].show();
+						me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
+					} else {
+						me["F_target"].hide();
+					}
+					
+					tgt_flap = 177;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
+				
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
+				} else if (flap_config.getValue() == '4') {
+					me["S_target"].hide();
+					me["F_target"].hide();
+					me["clean_speed"].hide();	
+					me["flap_max"].hide();
 				} else {
 					me["S_target"].hide();
-				}
-				
-				tgt_flap = 200;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			} else if (flap_config.getValue() == '2') {
-				me["S_target"].hide();
-				me["clean_speed"].hide();
-				
-				tgt_F = tgt_S = getprop("/FMGC/internal/computed-speeds/flap2");
-				
-				if (tgt_F <= 30) {
-					me.Ftrgt = 0 - me.ASI;
-				} else if (tgt_F >= 420) {
-					me.Ftrgt = 390 - me.ASI;
-				} else {
-					me.Ftrgt = tgt_F - 30 - me.ASI;
-				}
-			
-				me.SPDftrgtdiff = tgt_F - ind_spd;
-			
-				if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42) {
-					me["F_target"].show();
-					me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
-				} else {
 					me["F_target"].hide();
-				}
-				
-				tgt_flap = 185;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			} else if (flap_config.getValue() == '3') {
-				me["S_target"].hide();
-				me["clean_speed"].hide();
-				
-				tgt_F = tgt_S = getprop("/FMGC/internal/computed-speeds/flap3");
 					
-				if (tgt_F <= 30) {
-					me.Ftrgt = 0 - me.ASI;
-				} else if (tgt_F >= 420) {
-					me.Ftrgt = 390 - me.ASI;
-				} else {
-					me.Ftrgt = tgt_F - 30 - me.ASI;
-				}
-			
-				me.SPDftrgtdiff = tgt_F - ind_spd;
-			
-				if (me.SPDftrgtdiff >= -42 and me.SPDftrgtdiff <= 42) {
-					me["F_target"].show();
-					me["F_target"].setTranslation(0, me.Ftrgt * -6.6);
-				} else {
-					me["F_target"].hide();
-				}
+					tgt_clean = fmgc.FMGCInternal.clean;
+					
+					me.cleantrgt = tgt_clean - 30 - me.ASI;
+					me.SPDcleantrgtdiff = tgt_clean - ind_spd;
 				
-				tgt_flap = 177;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
+					if (me.SPDcleantrgtdiff >= -42 and me.SPDcleantrgtdiff <= 42) {
+						me["clean_speed"].show();
+						me["clean_speed"].setTranslation(0, me.cleantrgt * -6.6);
+					} else {
+						me["clean_speed"].hide();
+					}	
+					
+					tgt_flap = 230;
+					me.flaptrgt = tgt_flap - 30 - me.ASI;
+					
+					me.SPDflaptrgtdiff = tgt_flap - ind_spd;
 				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
+					if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
+						me["flap_max"].show();
+						me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
+					} else {
+						me["flap_max"].hide();
+					}
 				}
-			} else if (flap_config.getValue() == '4') {
-				me["S_target"].hide();
-				me["F_target"].hide();
-				me["clean_speed"].hide();	
-				me["flap_max"].hide();
 			} else {
 				me["S_target"].hide();
 				me["F_target"].hide();
-				
-				tgt_clean = tgt_S = getprop("/FMGC/internal/computed-speeds/clean");
-				
-				me.cleantrgt = tgt_clean - 30 - me.ASI;
-				me.SPDcleantrgtdiff = tgt_clean - ind_spd;
-			
-				if (me.SPDcleantrgtdiff >= -42 and me.SPDcleantrgtdiff <= 42) {
-					me["clean_speed"].show();
-					me["clean_speed"].setTranslation(0, me.cleantrgt * -6.6);
-				} else {
-					me["clean_speed"].hide();
-				}	
-				
-				tgt_flap = 230;
-				me.flaptrgt = tgt_flap - 30 - me.ASI;
-				
-				me.SPDflaptrgtdiff = tgt_flap - ind_spd;
-			
-				if (me.SPDflaptrgtdiff >= -42 and me.SPDflaptrgtdiff <= 42) {
-					me["flap_max"].show();
-					me["flap_max"].setTranslation(0, me.flaptrgt * -6.6);
-				} else {
-					me["flap_max"].hide();
-				}
-			}
-			
-			if (alt_agl.getValue() < 400) {
-				me["S_target"].hide();
-				me["F_target"].hide();
+				me["clean_speed"].hide();
+				me["flap_max"].hide();
 			}
 			
 			me.ASItrend = dmc.DMController.DMCs[1].outputs[6].getValue() - me.ASI;
@@ -2419,7 +2458,7 @@ var canvas_PFD_2 = {
 			
 			landing_diff_cur = landing_diff.getValue();
 			if (landing_diff_cur >= -565 and landing_diff_cur <= 565) {
-				if ((FMGCphase.getValue() == 5 or FMGCphase.getValue() == 6) and !wow1.getValue() and !wow2.getValue()) { #add std too
+				if ((fmgc.FMGCInternal.phase == 5 or fmgc.FMGCInternal.phase == 6) and !wow1.getValue() and !wow2.getValue()) { #add std too
 					me["ground"].setTranslation(0, (landing_diff_cur / 100) * -48.66856);
 					me["ground"].show();
 				} else {
@@ -2429,13 +2468,13 @@ var canvas_PFD_2 = {
 				me["ground"].hide();
 			}
 			
-			if (!getprop("/ECAM/alt-alert-flash") and !getprop("/ECAM/alt-alert-steady")) {
+			if (!ecam.altAlertFlash and !ecam.altAlertSteady) {
 				alt_going2 = 0;
 				amber_going2 = 0;
 				me["ALT_box_flash"].hide();
 				me["ALT_box_amber"].hide();
 			} else {
-				if (getprop("/ECAM/alt-alert-flash")) {
+				if (ecam.altAlertFlash) {
 					if (alt_going2 == 1) {
 						me["ALT_box_flash"].hide(); 
 						altTimer2.stop();
@@ -2453,7 +2492,7 @@ var canvas_PFD_2 = {
 					} else {
 						me["ALT_box_amber"].hide(); 
 					}
-				} elsif (getprop("/ECAM/alt-alert-steady")) {
+				} elsif (ecam.altAlertSteady) {
 					if (amber_going2 == 1) {
 						me["ALT_box"].show();
 						me["ALT_box_amber"].hide();

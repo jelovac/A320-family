@@ -4,7 +4,7 @@
 
 var radnavInput = func(key, i) {
 	var scratchpad = mcdu_scratchpad.scratchpads[i].scratchpad;
-	if (!getprop("systems/radio/rmp[0]/nav") and !getprop("systems/radio/rmp[1]/nav")) {
+	if (!getprop("/systems/radio/rmp[0]/nav") and !getprop("/systems/radio/rmp[1]/nav")) {
 		if (key == "L1") {
 			if (scratchpad == "CLR") {
 				setprop("/FMGC/internal/vor1freq-set", 0);
@@ -68,7 +68,7 @@ var radnavInput = func(key, i) {
 							setprop("/FMGC/internal/ils1freq-set", 1);
 							mcdu_scratchpad.scratchpads[i].empty();
 							if (num(getprop("/FMGC/internal/ils1freq-calculated")) != 0 and num(getprop("/FMGC/internal/ils1freq-calculated")) != num(getprop("instrumentation/nav[0]/frequencies/selected-mhz"))) {
-								genericMessage(i, "RWY/LS MISMATCH", "amb");
+								mcdu_message(i, "RWY/LS MISMATCH");
 							}
 						} else {
 							mcdu_message(i, "NOT ALLOWED");

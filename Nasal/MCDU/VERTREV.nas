@@ -126,7 +126,7 @@ var vertRev = {
 		}
 	},
 	updateR5: func() {
-		if (getprop("FMGC/internal/cruise-lvl-set") and (getprop("FMGC/status/phase") < 4 or getprop("FMGC/status/phase") == 7)) {
+		if (fmgc.FMGCInternal.crzSet and (fmgc.FMGCInternal.phase < 4 or fmgc.FMGCInternal.phase == 7)) {
 			me.R5 = ["STEP ALTS ", nil, "wht"];
 			me.arrowsMatrix[1][4] = 1;
 		} else {
@@ -154,15 +154,17 @@ var vertRev = {
 				fmgc.windController.accessPage[me.computer] = "VERTREV";
 				setprop("MCDU[" ~ me.computer ~ "]/page", "WINDDES");
 			} else if (me.wp.wp_role == nil and me.wp.wp_type == "navaid") {
-				if (canvas_mcdu.myCRZWIND[me.computer] == nil) {
-					cur_location = 0;
-					for (i = 0; i < size(fmgc.windController.nav_indicies[me.plan]); i += 1) {
-						if (fmgc.windController.nav_indicies[me.plan][i] == me.index) {
-							cur_location = i;
-						}
+				cur_location = 0;
+				for (i = 0; i < size(fmgc.windController.nav_indicies[me.plan]); i += 1) {
+					if (fmgc.windController.nav_indicies[me.plan][i] == me.index) {
+						cur_location = i;
 					}
+				}
+				if (canvas_mcdu.myCRZWIND[me.computer] == nil) {
 					canvas_mcdu.myCRZWIND[me.computer] = windCRZPage.new(me.computer, me.wp, cur_location);
 				} else {
+					canvas_mcdu.myCRZWIND[me.computer].waypoint = me.wp;
+					canvas_mcdu.myCRZWIND[me.computer].cur_location = cur_location;
 					canvas_mcdu.myCRZWIND[me.computer].reload();
 				}
 				fmgc.windController.accessPage[me.computer] = "VERTREV";
@@ -182,7 +184,7 @@ var vertRev = {
 	},
 };
 
-setlistener("FMGC/internal/cruise-lvl-set", func() {
+var updateCrzLvlCallback = func () {
 	if (canvas_mcdu.myVertRev[0] != nil) { 
 		canvas_mcdu.myVertRev[0].updateR5();
 	}
@@ -190,9 +192,9 @@ setlistener("FMGC/internal/cruise-lvl-set", func() {
 	if (canvas_mcdu.myVertRev[1] != nil) { 
 		canvas_mcdu.myVertRev[1].updateR5();
 	}
-}, 0, 0);
+};
 
-setlistener("FMGC/status/phase", func() {
+var updatePhaseCallback = func() {
 	if (canvas_mcdu.myVertRev[0] != nil) { 
 		canvas_mcdu.myVertRev[0].updateR5();
 	}
@@ -200,4 +202,4 @@ setlistener("FMGC/status/phase", func() {
 	if (canvas_mcdu.myVertRev[1] != nil) { 
 		canvas_mcdu.myVertRev[1].updateR5();
 	}
-}, 0, 0);
+};
