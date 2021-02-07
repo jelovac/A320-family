@@ -4,6 +4,10 @@
 # Anything that says Temp is set by another file to avoid multiple getValue calls
 # Usage Example: pts.Class.SubClass.node.getValue()
 
+var Accelerations = {
+	pilotGDamped: props.globals.getNode("/accelerations/pilot-gdamped"),
+};
+
 var Acconfig = {
 	running: props.globals.getNode("/systems/acconfig/autoconfig-running"),
 };
@@ -169,6 +173,13 @@ var Instrumentation = {
 			pnlModeNum: [props.globals.initNode("/instrumentation/efis[0]/mfd/pnl_mode-num", 2, "INT"), props.globals.initNode("/instrumentation/efis[1]/mfd/pnl_mode-num", 2, "INT")],
 		},
 	},
+	GPS: {
+		altitude: props.globals.getNode("/instrumentation/gps/indicated-altitude-ft"),
+		latitude: props.globals.getNode("/instrumentation/gps/indicated-latitude-deg"),
+		longitude: props.globals.getNode("/instrumentation/gps/indicated-longitude-deg"),
+		trackMag: props.globals.getNode("/instrumentation/gps/indicated-track-magnetic-deg"),
+		gs: props.globals.getNode("/instrumentation/gps/indicated-ground-speed-kt"),
+	},
 	MKVII: {
 		Inputs: {
 			Discretes: {
@@ -241,6 +252,7 @@ var Sim = {
 	Time: {
 		deltaRealtimeSec: props.globals.getNode("/sim/time/delta-realtime-sec"),
 		elapsedSec: props.globals.getNode("/sim/time/elapsed-sec"),
+		gmtString: props.globals.getNode("/sim/time/gmt-string"),
 		UTC: {
 			day: props.globals.getNode("/sim/time/utc/day"),
 			month: props.globals.getNode("/sim/time/utc/month"),
